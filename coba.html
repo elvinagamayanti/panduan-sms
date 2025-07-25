@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Penggunaan Survey Management System (SMS) - BPS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header h2 {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        
+        .sidebar h3 {
+            padding: 0 1.5rem;
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 0.5rem;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar ul li {
+            margin: 0;
+        }
+        
+        .sidebar ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            display: block;
+            padding: 0.7rem 1.5rem;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar ul li a:hover {
+            background: #34495e;
+            color: #3498db;
+            border-left-color: #3498db;
+        }
+        
+        .sidebar ul li ul {
+            background: #34495e;
+        }
+        
+        .sidebar ul li ul li a {
+            padding-left: 2.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .content {
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .content.shifted {
+            margin-left: 300px;
+        }
+        
+        .main-content {
+            padding: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid #3498db;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+        
+        .section h4 {
+            color: #7f8c8d;
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .section p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        
+        .section ul, .section ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #b8daff;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 1rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #3498db;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .role-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .role-card h4 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .tahap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tahap-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .tahap-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .tahap-card h4 {
+            background: #3498db;
+            color: white;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .menu-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: 1.2rem;
+        }
+        
+        .menu-toggle:hover {
+            background: #2980b9;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1rem;
+            }
+            
+            .tahap-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media print {
+            .sidebar, .menu-toggle {
+                display: none;
+            }
+            
+            .content {
+                margin-left: 0 !important;
+            }
+            
+            .section {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    
+    <div class="sidebar" id="sidebar">
+        <h3>DAFTAR ISI</h3>
+        <ul>
+            <li><a href="#pengantar">1. PENGANTAR</a>
+                <ul>
+                    <li><a href="#apa-itu-sms">Apa itu SMS?</a></li>
+                    <li><a href="#tujuan-sistem">Tujuan Sistem</a></li>
+                    <li><a href="#struktur-organisasi">Struktur Organisasi</a></li>
+                </ul>
+            </li>
+            <li><a href="#memulai">2. MEMULAI PENGGUNAAN</a>
+                <ul>
+                    <li><a href="#akses-sistem">Akses Sistem</a></li>
+                    <li><a href="#login">Login ke Sistem</a></li>
+                </ul>
+            </li>
+            <li><a href="#panduan-peran">3. PANDUAN BERDASARKAN PERAN</a>
+                <ul>
+                    <li><a href="#superadmin">Superadmin</a></li>
+                    <li><a href="#admin-pusat">Admin Pusat</a></li>
+                    <li><a href="#admin-provinsi">Admin Provinsi</a></li>
+                    <li><a href="#admin-satker">Admin Satker</a></li>
+                </ul>
+            </li>
+            <li><a href="#fitur-utama">4. FITUR UTAMA SISTEM</a></li>
+            <li><a href="#tahapan-survei">5. TAHAPAN SURVEI</a></li>
+            <li><a href="#notifikasi">6. NOTIFIKASI & MONITORING</a></li>
+            <li><a href="#troubleshooting">7. TROUBLESHOOTING</a></li>
+            <li><a href="#faq">8. FAQ</a></li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>BUKU PANDUAN PENGGUNAAN</h1>
+            <h2>Sistem Monitoring Survei (SMS) - Badan Pusat Statistik</h2>
+        </div>
+        
+        <div class="content" id="content">
+                            <div class="main-content">
+                
+                <section id="pengantar" class="section">
+                    <h2>1. PENGANTAR</h2>
+                    
+                    <h3 id="apa-itu-sms">Apa itu Sistem Monitoring Survei (SMS)?</h3>
+                    <p>Sistem Monitoring Survei (SMS) adalah sistem informasi berbasis web yang dikembangkan khusus untuk pemantauan progres kegiatan survei di lingkungan Badan Pusat Statistik (BPS). Sistem ini dirancang untuk mendukung koordinasi dan pemantauan survei dari tingkat pusat hingga satuan kerja daerah.</p>
+                    
+                    <h3 id="tujuan-sistem">Tujuan Sistem</h3>
+                    <div class="highlight-box">
+                        <ul>
+                            <li><strong>Centralized Management</strong>: Mengelola semua kegiatan survei dalam satu platform terpadu</li>
+                            <li><strong>Hierarchical Coordination</strong>: Mendukung koordinasi antar tingkat organisasi BPS</li>
+                            <li><strong>Real-time Monitoring</strong>: Memantau progress kegiatan survei secara real-time</li>
+                            <li><strong>Standardized Process</strong>: Menstandarkan proses pelaksanaan survei</li>
+                            <li><strong>Audit Trail</strong>: Mencatat semua aktivitas untuk akuntabilitas</li>
+                        </ul>
+                    </div>
+                    
+                    <h3 id="struktur-organisasi">Struktur Organisasi yang Didukung</h3>
+                    <p>SMS dirancang untuk mendukung hierarki BPS:</p>
+                    
+                    <div class="info-box">
+                        <h4>1. BPS Pusat (Kode: 0000)</h4>
+                        <ul>
+                            <li>Membuat master kegiatan survei</li>
+                            <li>Mengalokasikan kegiatan ke daerah</li>
+                            <li>Monitoring pelaksanaan nasional</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>2. BPS Provinsi (Kode: XX00)</h4>
+                        <ul>
+                            <li>Mengelola kegiatan di tingkat provinsi</li>
+                            <li>Mengkoordinasikan kabupaten/kota</li>
+                            <li>Melaporkan ke pusat</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>3. BPS Kabupaten/Kota (Kode: XXXX)</h4>
+                        <ul>
+                            <li>Melaksanakan survei di lapangan</li>
+                            <li>Pelaporan ke provinsi dan pusat</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="memulai" class="section">
+                    <h2>2. MEMULAI PENGGUNAAN SISTEM</h2>
+                    
+                    <h3 id="akses-sistem">Akses Sistem</h3>
+                    <div class="highlight-box">
+                        <ul>
+                            <li><strong>URL Sistem</strong>: <code>https://sms-fe-dev.student.stis.ac.id</code></li>
+                            <li><strong>Browser yang Didukung</strong>: Chrome, Firefox, Safari, Edge (versi terbaru)</li>
+                            <li><strong>Persyaratan</strong>: Koneksi internet stabil</li>
+                        </ul>
+                    </div>
+                    
+                    <h3 id="login">Login ke Sistem</h3>
+                    <ol class="step-list">
+                        <li><strong>Masuk ke Halaman Login</strong><br>
+                            Buka browser dan akses URL sistem. Anda akan diarahkan ke halaman login</li>
+                        <li><strong>Memasukkan Kredensial</strong><br>
+                            <ul>
+                                <li><strong>Email</strong>: Masukkan email yang telah terdaftar</li>
+                                <li><strong>Password</strong>: Masukkan password Anda</li>
+                                <li>Klik tombol "Login"</li>
+                            </ul>
+                        </li>
+                        <li><strong>Setelah Login Berhasil</strong><br>
+                            Sistem akan menampilkan dashboard sesuai dengan peran Anda dan memberikan token autentikasi yang berlaku 24 jam</li>
+                    </ol>
+                    
+                    <div class="warning-box">
+                        <strong>Lupa Password?</strong><br>
+                        Jika lupa password, hubungi administrator sistem di satuan kerja Anda atau gunakan fitur reset password (jika tersedia).
+                    </div>
+                </section>
+
+                <section id="panduan-peran" class="section">
+                    <h2>3. PANDUAN BERDASARKAN PERAN</h2>
+                    
+                    <div id="superadmin" class="role-card">
+                        <h4>SUPERADMIN</h4>
+                        <p><strong>Akses Penuh Sistem</strong></p>
+                        <ul>
+                            <li>Mengelola semua pengguna dan satuan kerja</li>
+                            <li>Membuat dan mengelola role pengguna</li>
+                            <li>Monitoring aktivitas di seluruh sistem</li>
+                            <li>Konfigurasi sistem dan parameter</li>
+                        </ul>
+                        <p><strong>Menu Utama:</strong> Dashboard Super Admin, Manajemen Pengguna Global, Manajemen Satuan Kerja, Manajemen Role dan Hak Akses, Activity Logs Global, Konfigurasi Sistem</p>
+                    </div>
+                    
+                    <div id="admin-pusat" class="role-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                        <h4>ADMIN PUSAT & OPERATOR PUSAT</h4>
+                        <p><strong>Mengelola Tingkat Pusat</strong></p>
+                        <ul>
+                            <li>Membuat master kegiatan survei</li>
+                            <li>Mengalokasikan kegiatan ke provinsi/satker</li>
+                            <li>Monitoring pelaksanaan nasional</li>
+                            <li>Mengelola direktorat dan deputinya</li>
+                        </ul>
+                        
+                        <h4>Workflow Utama:</h4>
+                        <ol class="step-list">
+                            <li><strong>Membuat Master Kegiatan</strong><br>
+                                Buka menu "Master Kegiatan" → Klik "Tambah Kegiatan Baru" → Isi detail kegiatan → Assign ke direktorat → Simpan</li>
+                            <li><strong>Mengalokasikan Kegiatan</strong><br>
+                                Pilih kegiatan → Klik "Assign ke Satker" → Pilih satker tujuan → Konfirmasi alokasi</li>
+                        </ol>
+                    </div>
+                    
+                    <div id="admin-provinsi" class="role-card" style="background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);">
+                        <h4>ADMIN PROVINSI & OPERATOR PROVINSI</h4>
+                        <p><strong>Mengelola Tingkat Provinsi</strong></p>
+                        <ul>
+                            <li>Menerima kegiatan dari pusat</li>
+                            <li>Mengalokasikan ke kabupaten/kota</li>
+                            <li>Monitoring provinsi</li>
+                            <li>Koordinasi dengan satker</li>
+                        </ul>
+                        
+                        <h4>Workflow Utama:</h4>
+                        <ol class="step-list">
+                            <li><strong>Menerima Kegiatan dari Pusat</strong><br>
+                                Cek menu "Kegiatan Provinsi" → Review kegiatan yang di-assign → Terima atau minta klarifikasi</li>
+                            <li><strong>Mengalokasikan ke Kab/Kota</strong><br>
+                                Pilih kegiatan → Tentukan kabupaten/kota → Assign kegiatan → Monitor pelaksanaan</li>
+                        </ol>
+                    </div>
+                    
+                    <div id="admin-satker" class="role-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <h4>ADMIN SATKER & OPERATOR SATKER</h4>
+                        <p><strong>Mengelola Tingkat Satker</strong></p>
+                        <ul>
+                            <li>Melaksanakan kegiatan survei</li>
+                            <li>Mengelola tahapan survei</li>
+                            <li>Upload dokumen dan laporan</li>
+                            <li>Pelaporan progress</li>
+                        </ul>
+                        
+                        <h4>Workflow Utama:</h4>
+                        <ol class="step-list">
+                            <li><strong>Melihat Kegiatan yang Ditugaskan</strong><br>
+                                Buka "Kegiatan Saya" → Lihat daftar kegiatan → Cek deadline dan requirements</li>
+                            <li><strong>Melaksanakan Tahapan Survei</strong><br>
+                                Pilih kegiatan → Ikuti 8 tahap GSBPM → Update status subtahap → Upload dokumen</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="fitur-utama" class="section">
+                    <h2>4. FITUR UTAMA SISTEM</h2>
+                    
+                    <h3>1. Manajemen Kegiatan</h3>
+                    <div class="highlight-box">
+                        <h4>Membuat Kegiatan Baru (Pusat Only)</h4>
+                        <ol class="step-list">
+                            <li>Klik menu "Master Kegiatan" → "Tambah Baru"</li>
+                            <li>Isi form dengan lengkap:
+                                <ul>
+                                    <li>Nama kegiatan</li>
+                                    <li>Kode kegiatan (unik)</li>
+                                    <li>Deskripsi</li>
+                                    <li>Tanggal mulai dan selesai</li>
+                                    <li>Budget (jika ada)</li>
+                                    <li>Direktorat penanggung jawab</li>
+                                </ul>
+                            </li>
+                            <li>Klik "Simpan"</li>
+                        </ol>
+                    </div>
+                    
+                    <h3>2. Assignment Kegiatan</h3>
+                    <div class="info-box">
+                        <h4>Assignment ke Multiple Satker</h4>
+                        <p>Pilih kegiatan master → Klik "Assign ke Satker" → Pilih satker dari daftar → Centang multiple satker → Klik "Assign"</p>
+                        
+                        <h4>Assignment Berdasarkan Provinsi</h4>
+                        <p>Pilih kegiatan master → Klik "Assign ke Provinsi" → Pilih provinsi → Sistem otomatis mengalokasikan ke semua satker di provinsi</p>
+                    </div>
+                    
+                    <h3>3. Manajemen User</h3>
+                    <div class="highlight-box">
+                        <h4>Menambah User Baru</h4>
+                        <ol class="step-list">
+                            <li>Klik menu "Users" → "Tambah User"</li>
+                            <li>Isi data user: Nama, Email, Password, Satuan kerja, Role</li>
+                            <li>Klik "Simpan"</li>
+                        </ol>
+                        
+                        <h4>Aktivasi/Deaktivasi User</h4>
+                        <p>Cari user → Klik toggle "Active/Inactive" → Konfirmasi perubahan</p>
+                    </div>
+                </section>
+
+                <section id="tahapan-survei" class="section">
+                    <h2>5. PENGELOLAAN TAHAPAN SURVEI</h2>
+                    
+                    <p>SMS menggunakan standar <strong>Generic Statistical Business Process Model (GSBPM)</strong> dengan 8 tahap utama:</p>
+                    
+                    <div class="tahap-grid">
+                        <div class="tahap-card">
+                            <h4>Tahap 1: Specify Needs</h4>
+                            <p><strong>6 Subtahap:</strong></p>
+                            <ol>
+                                <li>Identifikasi kebutuhan informasi</li>
+                                <li>Konsultasi dan konfirmasi kebutuhan</li>
+                                <li>Penetapan tujuan output</li>
+                                <li>Identifikasi konsep dan definisi</li>
+                                <li>Cek ketersediaan data</li>
+                                <li>Persiapan proposal bisnis</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="tahap-card">
+                            <h4>Tahap 2: Design</h4>
+                            <p><strong>6 Subtahap:</strong></p>
+                            <ol>
+                                <li>Desain output</li>
+                                <li>Desain deskripsi variabel</li>
+                                <li>Desain kuesioner</li>
+                                <li>Desain frame dan sample</li>
+                                <li>Desain proses dan analisis</li>
+                                <li>Desain alur kerja</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="tahap-card">
+                            <h4>Tahap 3: Build</h4>
+                            <p><strong>7 Subtahap:</strong></p>
+                            <ol>
+                                <li>Menggunakan kembali atau membangun kuesioner</li>
+                                <li>Menggunakan kembali atau membangun komponen proses dan analisis</li>
+                                <li>Menggunakan kembali atau membangun komponen diseminasi</li>
+                                <li>Konfigurasi alur kerja</li>
+                                <li>Uji sistem produksi</li>
+                                <li>Uji proses bisnis statistik</li>
+                                <li>Finalisasi sistem produksi</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="tahap-card">
+                            <h4>Tahap 4: Collect</h4>
+                            <p><strong>4 Subtahap:</strong></p>
+                            <ol>
+                                <li>Buat frame dan pilih sample</li>
+                                <li>Persiapan pengumpulan data</li>
+                                <li>Pengumpulan data</li>
+                                <li>Finalisasi hasil pengumpulan data</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="tahap-card">
+                            <h4>Tahap 5: Process</h4>
+                            <p><strong>8 Subtahap:</strong></p>
+                            <ol>
+                                <li>Integrasi data</li>
+				<li>Klasifikasi dan pengkodean</li>
+				<li>Review dan validasi</li>
+				<li>Edit dan imputasi data</li>
+				<li>Membuat variabel turunan</li>
+				<li>Penghitungan bobot</li>
+				<li>Penghitungan agregasi</li>
+				<li>Finalisasi data</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="tahap-card">
+                            <h4>Tahap 6: Analyse</h4>
+                            <p><strong>5 Subtahap:</strong></p>
+                            <ol>
+                                <li>Menyiapkan draft output</li>
+                                <li>Validasi output</li>
+                                <li>Interpretasi dan menjelaskan output</li>
+                                <li>Menerapkan kontrol diseminasi</li>
+                                <li>Finalisasi output</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="tahap-card">
+                            <h4>Tahap 7: Disseminate</h4>
+                            <p><strong>5 Subtahap:</strong></p>
+                            <ol>
+                                <li>Perbarui sistem output</li>
+                                <li>Membuat produk diseminasi</li>
+                                <li>Mengelola rilis produk diseminasi</li>
+                                <li>Promosi produk diseminasi</li>
+                                <li>Mengelola bantuan konsumen diseminasi</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="tahap-card">
+                            <h4>Tahap 8: Evaluate</h4>
+                            <p><strong>3 Subtahap:</strong></p>
+                            <ol>
+                                <li>Mengumpulkan masukan evaluasi</li>
+                                <li>Melakukan evaluasi</li>
+                                <li>Penyetujuan rencana tindakan</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <h3>Cara Menggunakan Tahapan:</h3>
+                    <div class="highlight-box">
+                        <ol class="step-list">
+                            <li><strong>Mengakses Tahapan</strong><br>
+                                Pilih kegiatan dari "Kegiatan Saya" → Klik "Kelola Tahapan" → Sistem menampilkan 8 tahap dengan progress</li>
+                            <li><strong>Mengupdate Status Subtahap</strong><br>
+                                Klik subtahap → Centang "Selesai" → Isi tanggal realisasi → Tambahkan keterangan → Simpan</li>
+                            <li><strong>Upload Dokumen</strong><br>
+                                Di setiap tahap → Klik "Upload Dokumen" → Pilih file → Tambahkan deskripsi → Upload</li>
+                            <li><strong>Melihat Progress</strong><br>
+                                Progress ditampilkan dalam persentase, status, visualisasi timeline, dan comparison planned vs actual</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>Status Tahapan:</h4>
+                        <ul>
+                            <li><strong>Belum Mulai</strong>: Tahap belum dikerjakan</li>
+                            <li><strong>Sedang Berjalan</strong>: Tahap dalam proses pengerjaan</li>
+                            <li><strong>Selesai Tepat Waktu</strong>: Selesai sesuai atau lebih cepat dari jadwal</li>
+                            <li><strong>Selesai Terlambat</strong>: Selesai tetapi melewati deadline</li>
+                            <li><strong>Terlambat</strong>: Melewati deadline tapi belum selesai</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="notifikasi" class="section">
+                    <h2>6. NOTIFIKASI DAN MONITORING</h2>
+                    
+                    <h3>Sistem Notifikasi</h3>
+                    <div class="highlight-box">
+                        <h4>Jenis Notifikasi:</h4>
+                        <ul>
+                            <li><strong>In-App Notification</strong>: Muncul di dalam aplikasi</li>
+                            <li><strong>Email Notification</strong>: Dikirim ke email terdaftar</li>
+                            <li><strong>Push Notification</strong>: Untuk mobile (jika tersedia)</li>
+                        </ul>
+                        
+                        <h4>Level Prioritas:</h4>
+                        <ul>
+                            <li><strong>CRITICAL</strong>: Alert untuk masalah urgent, dikirim segera</li>
+                            <li><strong>HIGH</strong>: Notifikasi penting, dikirim dalam beberapa menit</li>
+                            <li><strong>MEDIUM</strong>: Notifikasi normal, dikirim berkala</li>
+                            <li><strong>LOW</strong>: Informasi umum, tidak urgent</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Pengaturan Notifikasi</h3>
+                    <ol class="step-list">
+                        <li>Buka menu "Profile" → "Notification Settings"</li>
+                        <li>Pilih jenis notifikasi yang ingin diterima</li>
+                        <li>Set frekuensi penerimaan</li>
+                        <li>Simpan pengaturan</li>
+                    </ol>
+                    
+                    <h3>Activity Monitoring</h3>
+                    <div class="info-box">
+                        <h4>Activity Log</h4>
+                        <ul>
+                            <li>Semua aktivitas user tercatat otomatis</li>
+                            <li>Meliputi: login, update data, upload file, dll.</li>
+                            <li>Dapat diakses di menu "Activity Logs"</li>
+                            <li>Filter berdasarkan user, tanggal, jenis aktivitas</li>
+                        </ul>
+                        
+                        <h4>Real-time Monitoring</h4>
+                        <ul>
+                            <li>Dashboard menampilkan aktivitas real-time</li>
+                            <li>Alert otomatis untuk masalah sistem</li>
+                            <li>Monitoring performance dan usage</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="troubleshooting" class="section">
+                    <h2>7. TROUBLESHOOTING</h2>
+                    
+                    <h3>Masalah Login</h3>
+                    <div class="warning-box">
+                        <h4>"Email atau Password Salah"</h4>
+                        <ul>
+                            <li>Pastikan email dan password benar</li>
+                            <li>Cek caps lock</li>
+                            <li>Coba reset password</li>
+                            <li>Hubungi admin jika masih bermasalah</li>
+                        </ul>
+                        
+                        <h4>"Token Expired"</h4>
+                        <ul>
+                            <li>Login ulang ke sistem</li>
+                            <li>Token berlaku 24 jam</li>
+                            <li>Jika sering expired, hubungi admin</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Masalah Upload File</h3>
+                    <div class="warning-box">
+                        <h4>"File Gagal Upload"</h4>
+                        <ul>
+                            <li>Cek ukuran file (max sesuai setting sistem)</li>
+                            <li>Pastikan format file didukung</li>
+                            <li>Cek koneksi internet</li>
+                            <li>Coba upload ulang</li>
+                        </ul>
+                        
+                        <h4>"Access Denied"</h4>
+                        <ul>
+                            <li>Pastikan Anda memiliki hak akses</li>
+                            <li>Cek apakah file sedang digunakan aplikasi lain</li>
+                            <li>Hubungi admin untuk konfirmasi hak akses</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Masalah Performa</h3>
+                    <div class="info-box">
+                        <h4>"Sistem Lambat"</h4>
+                        <ul>
+                            <li>Cek koneksi internet</li>
+                            <li>Tutup tab browser yang tidak perlu</li>
+                            <li>Clear cache browser</li>
+                            <li>Coba refresh halaman</li>
+                        </ul>
+                        
+                        <h4>"Data Tidak Tersimpan"</h4>
+                        <ul>
+                            <li>Pastikan koneksi internet stabil</li>
+                            <li>Cek mandatory field sudah diisi</li>
+                            <li>Coba simpan kembali</li>
+                            <li>Hubungi admin jika persisten</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="faq" class="section">
+                    <h2>8. FAQ (Frequently Asked Questions)</h2>
+                    
+                    <h3>Umum</h3>
+                    <div class="highlight-box">
+                        <h4>Q: Berapa lama token login berlaku?</h4>
+                        <p><strong>A:</strong> Token login berlaku selama 24 jam. Setelah itu perlu login ulang.</p>
+                        
+                        <h4>Q: Apakah bisa mengakses sistem dari mobile?</h4>
+                        <p><strong>A:</strong> Ya, sistem responsive dan dapat diakses dari mobile browser.</p>
+                        
+                        <h4>Q: Bagaimana cara mengubah password?</h4>
+                        <p><strong>A:</strong> Buka menu Profile → Change Password, masukkan password lama dan baru.</p>
+                    </div>
+                    
+                    <h3>Kegiatan</h3>
+                    <div class="info-box">
+                        <h4>Q: Siapa yang bisa membuat kegiatan baru?</h4>
+                        <p><strong>A:</strong> Hanya ADMIN_PUSAT dan OPERATOR_PUSAT yang bisa membuat master kegiatan.</p>
+                        
+                        <h4>Q: Bagaimana cara melihat kegiatan yang ditugaskan ke saya?</h4>
+                        <p><strong>A:</strong> Buka menu "Kegiatan Saya" di dashboard.</p>
+                        
+                        <h4>Q: Apakah bisa mengubah kegiatan yang sudah di-assign?</h4>
+                        <p><strong>A:</strong> Perubahan terbatas, hubungi admin untuk perubahan major.</p>
+                    </div>
+                    
+                    <h3>Tahapan</h3>
+                    <div class="warning-box">
+                        <h4>Q: Apakah harus mengikuti urutan tahapan?</h4>
+                        <p><strong>A:</strong> Ya, tahapan mengikuti standar GSBPM dan sebaiknya berurutan.</p>
+                        
+                        <h4>Q: Bagaimana jika tahapan terlambat?</h4>
+                        <p><strong>A:</strong> Sistem akan memberikan notifikasi. Update status dan berikan keterangan keterlambatan.</p>
+                        
+                        <h4>Q: Bisakah upload multiple file dalam satu tahap?</h4>
+                        <p><strong>A:</strong> Ya, bisa upload beberapa file untuk setiap tahap.</p>
+                    </div>
+                    
+                    <h3>Hak Akses</h3>
+                    <div class="info-box">
+                        <h4>Q: Bagaimana cara request akses tambahan?</h4>
+                        <p><strong>A:</strong> Hubungi admin satker atau level yang lebih tinggi.</p>
+                        
+                        <h4>Q: Kenapa tidak bisa melihat data satker lain?</h4>
+                        <p><strong>A:</strong> Akses dibatasi berdasarkan hierarchical scope untuk keamanan data.</p>
+                    </div>
+                    
+                    <h3>Teknis</h3>
+                    <div class="highlight-box">
+                        <h4>Q: Browser apa yang direkomendasikan?</h4>
+                        <p><strong>A:</strong> Chrome, Firefox, Safari, atau Edge versi terbaru.</p>
+                        
+                        <h4>Q: Apakah data otomatis tersimpan?</h4>
+                        <p><strong>A:</strong> Tidak, pastikan selalu klik "Simpan" setelah input data.</p>
+                        
+                        <h4>Q: Bagaimana cara backup data?</h4>
+                        <p><strong>A:</strong> Sistem melakukan backup otomatis. Untuk export data pribadi, gunakan fitur export di setiap modul.</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>KONTAK SUPPORT</h2>
+                    
+                    <div class="highlight-box">
+                        <h4>Help Desk BPS</h4>
+                        <ul>
+                            <li>Email: http://halosis.bps.go.id </li>
+                            <li>Telepon: [nomor-telepon]</li>
+                            <li>Jam Kerja: Senin-Jumat, 07:30-16:00 WIB</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>Administrator Sistem</h4>
+                        <ul>
+                            <li>Email: 222111844@stis.ac.id</li>
+                            <li>Untuk masalah teknis dan konfigurasi</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <h4>Administrator Satker</h4>
+                        <ul>
+                            <li>Hubungi admin di satuan kerja masing-masing</li>
+                            <li>Untuk masalah hak akses dan operasional</li>
+                        </ul>
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>© 2025 Badan Pusat Statistik</strong></p>
+            <p><em>Sistem Monitoring Survei - User Guide v1.0</em></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            
+            sidebar.classList.toggle('active');
+            content.classList.toggle('shifted');
+        }
+
+        // Auto-hide sidebar on mobile
+        function handleResize() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
+            
+            if (window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+                content.classList.remove('shifted');
+            } else {
+                sidebar.classList.add('active');
+                content.classList.add('shifted');
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.sidebar a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Hide sidebar on mobile after clicking
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                }
+            });
+        });
+
+        // Initialize
+        window.addEventListener('load', handleResize);
+        window.addEventListener('resize', handleResize);
+
+        // Print functionality
+        function printGuide() {
+            window.print();
+        }
+
+        // Add print button (optional)
+        if (window.innerWidth > 768) {
+            const printBtn = document.createElement('button');
+            printBtn.innerHTML = '🖨️ Print';
+            printBtn.style.cssText = `
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: #3498db;
+                color: white;
+                border: none;
+                padding: 1rem;
+                border-radius: 50px;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+            `;
+            printBtn.onclick = printGuide;
+            document.body.appendChild(printBtn);
+        }
+    </script>
+</body>
+</html>
+
